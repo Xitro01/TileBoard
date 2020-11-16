@@ -1054,9 +1054,6 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
 
 //------ CUSTOM ------
     $scope.toggleVacuum = function (item, entity) {
-		if (item.type === TYPES.VACUUM && item.controlsEnabled) {
-            return;
-        }
         if (item.dockModeEnabled) return;
         var service;
         if (entity.state === "off") {
@@ -1106,7 +1103,7 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
         $event.preventDefault();
         $event.stopPropagation();
 
-        callService(item, 'vacuum', set_fan_speed, {entity_id: item.id, fan_speed: option});
+        callService(item, 'vacuum', 'set_fan_speed', {entity_id: item.id, fan_speed: option});
 
 
         $scope.closeActiveSelect();

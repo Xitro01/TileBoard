@@ -87,6 +87,10 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
       if (typeof item.action === 'function') {
          return callFunction(item.action, [item, entity]);
       }
+	  
+	  if(item.type === TYPES.VACUUM) {
+		 return $scope.toggleVacuum(item, entity);
+	  }
    };
 
    $scope.entityLongPress = function ($event, page, item, entity) {

@@ -942,7 +942,7 @@
             </div>
             <div class="item-climate--mode" ng-if="(_options = getClimateOptions(item, entity))"
                  ng-click="openSelect(item)">
-               <span ng-bind="getClimateCurrentOption(item, entity)"></span>
+               <span ng-bind="entity.state"></span>
             </div>
          </div>
 

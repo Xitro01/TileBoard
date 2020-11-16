@@ -1041,6 +1041,7 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
 
 //------ CUSTOM ------
     $scope.toggleVacuum = function (item, entity) {
+		console.log('hallo is daaar iemand!');
         if (item.dockModeEnabled) return;
         var service;
         if (entity.state === "off") service = "turn_on";

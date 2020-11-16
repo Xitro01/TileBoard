@@ -1041,7 +1041,6 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
 
 //------ CUSTOM ------
     $scope.toggleVacuum = function (item, entity) {
-		console.log('hallo is daaar iemand!');
         if (item.dockModeEnabled) return;
         var service;
         if (entity.state === "off") service = "turn_on";
@@ -1066,7 +1065,7 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
             if (entity.state === "cleaning") {
                 item.title = "Pausing...";
 				callService(item, 'vacuum', service, { entity_id: item.id });
-                });
+                };
                 $timeout(function () {
                     item.title = "Returning...";
 					callService(item, 'vacuum', service, { entity_id: item.id });
@@ -1074,7 +1073,7 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
             } else if (entity.state === "paused" || entity.state === "idle") {
                 item.title = "Returning...";
                 callService(item, 'vacuum', service, { entity_id: item.id });
-                });
+                };
             } else {
                 item.title = "Already docking";
             }
@@ -1090,7 +1089,7 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
         $event.stopPropagation();
 
 		callService(item, 'vacuum', set_fan_speed, { entity_id: item.id, fan_speed: option });
-        });
+        };
 
         $scope.closeActiveSelect();
 

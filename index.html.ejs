@@ -386,12 +386,25 @@
                <div ng-style="_imgStyles"></div>
             </div>
          </div>
-
+		
          <div class="header-weather--temperature" ng-if="item.fields.temperature">
             <span ng-bind="getWeatherField('temperature', item, {})"></span>
             <span ng-bind="getWeatherField('temperatureUnit', item, {})"></span>
          </div>
-
+            <!-- CUSTOM -->
+            <div class="weather-line -items">
+               <span ng-if="item.fields.humidity" class="header-weather--under">
+                  <i class="mdi mdi-water"></i>
+                  <span ng-bind="getWeatherField('humidity', item, entity)"></span><!--
+               --><span ng-bind="getWeatherField('humidityUnit', item, entity)"></span>
+               </span>
+                <span ng-if="item.fields.windSpeed" class="header-weather--under">
+                  <i class="mdi mdi-weather-windy"></i>
+                  <span ng-bind="getWeatherField('windSpeed', item, entity)"></span><!--
+               --><span ng-bind="getWeatherField('windSpeedUnit', item, entity)"></span>
+               </span>
+            </div>
+            <!-- /CUSTOM -->
          <div class="header-weather--summary" ng-if="item.fields.summary">
             <span ng-bind="getWeatherField('summary', item, {})"></span>
          </div>

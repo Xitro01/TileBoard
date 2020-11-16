@@ -1054,6 +1054,9 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
 
 //------ CUSTOM ------
     $scope.toggleVacuum = function (item, entity) {
+		if (item.type === TYPES.VACUUM && item.controlsEnabled) {
+            return;
+        }
         if (item.dockModeEnabled) return;
         var service;
         if (entity.state === "off") {

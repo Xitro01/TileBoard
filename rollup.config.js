@@ -80,6 +80,7 @@ const config = {
          },
       }),
       copy([
+         { files: './bower-angular-i18n/*.*', dest: `./${outDir}/bower-angular-i18n` },
          { files: './favicon.png', dest: `./${outDir}/` },
          { files: './manifest.webmanifest', dest: `./${outDir}/` },
          { files: './images/*.*', dest: `./${outDir}/images/` },

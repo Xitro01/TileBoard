@@ -99,15 +99,14 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
       if (typeof item.secondaryAction === 'function') {
          return callFunction(item.secondaryAction, [item, entity]);
       }
+	  
+      if (item.type === TYPES.VACUUM) {
+         return $scope.dockVacuum(item, entity);
+      }
 
       if (item.history || entity && entity.entity_id) {
          return $scope.openPopupHistory(item, entity);
       }
-	  
-	  switch (item.type) {
-            case TYPES.VACUUM:
-                return $scope.dockVacuum(item, entity);
-            }
    };
 
    $scope.getBodyClass = function () {

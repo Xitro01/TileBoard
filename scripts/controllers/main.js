@@ -882,7 +882,7 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
                if (entity.state === 'on') {
                   $scope.openLightSliders(item, entity);
                }
-            }, 0);
+            }, 500);
          });
       } else if (!item.controlsEnabled) {
          item.controlsEnabled = true;
@@ -1031,20 +1031,96 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
       callService(item, 'lock', service, {});
    };
 
-   $scope.toggleVacuum = function (item, entity) {
-      let service;
-      if (entity.state === 'off') {
-         service = 'turn_on';
-      } else if (entity.state === 'on') {
-         service = 'turn_off';
-      } else if (['idle', 'docked', 'paused'].indexOf(entity.state) !== -1) {
-         service = 'start';
-      } else if (entity.state === 'cleaning') {
-         service = 'return_to_base';
-      }
+//------ CUSTOM ------
+    $scope.toggleVacuum = function (item, entity) {
+        if (item.dockModeEnabled) return;
+        var service;
+        if (entity.state === "off") service = "turn_on";
+        else if (entity.state === "on") service = "turn_off";
+        else if (['idle', 'docked', 'paused', 'returning'].indexOf(entity.state) !== -1) {
+            service = "start";
+        } else if (entity.state === "cleaning") service = "pause";
 
-      callService(item, 'vacuum', service, {});
-   };
+        sendItemData(item, {
+            type: "call_service",
+            domain: "vacuum",
+            service: service,
+            service_data: {
+                entity_id: item.id
+            }
+        });
+    };
+
+    $scope.dockVacuum = function (item, entity) {
+        $scope.closeActiveSelect();
+        let placeholder = "on";
+        let service = "return_to_base";
+        let orgTitle = item.title;
+
+        if (!item.dockMode || !item.dockMode.length) return;
+        if (!item.dockModeEnabled) {
+            item.dockModeEnabled = true;
+
+            if (entity.state === "cleaning") {
+                item.title = "Pausing...";
+                sendItemData(item, {
+                    type: "call_service",
+                    domain: "vacuum",
+                    service: service,
+                    service_data: {
+                        entity_id: item.id
+                    }
+                });
+                $timeout(function () {
+                    item.title = "Returning...";
+                    sendItemData(item, {
+                        type: "call_service",
+                        domain: "vacuum",
+                        service: service,
+                        service_data: {
+                            entity_id: item.id
+                        }
+                    });
+                }, 2000);
+            } else if (entity.state === "paused" || entity.state === "idle") {
+                item.title = "Returning...";
+                sendItemData(item, {
+                    type: "call_service",
+                    domain: "vacuum",
+                    service: service,
+                    service_data: {
+                        entity_id: item.id
+                    }
+                });
+            } else {
+                item.title = "Already docking";
+            }
+            $timeout(function () {
+                item.dockModeEnabled = false;
+                item.title = orgTitle
+            }, 4000);
+        }
+    }
+
+    $scope.setVacuumOption = function ($event, item, entity, option) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        sendItemData(item, {
+            type: "call_service",
+            domain: "vacuum",
+            service: "set_fan_speed",
+            service_data: {
+                entity_id: item.id,
+                fan_speed: option
+            }
+        });
+
+        $scope.closeActiveSelect();
+
+        return false;
+    };
+//------ /CUSTOM ------
 
    $scope.triggerAutomation = function (item, entity) {
       callService(item, 'automation', 'trigger', {});

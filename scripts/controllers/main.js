@@ -1050,14 +1050,7 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
             service = "start";
         } else if (entity.state === "cleaning") service = "pause";
 
-        sendItemData(item, {
-            type: "call_service",
-            domain: "vacuum",
-            service: service,
-            service_data: {
-                entity_id: item.id
-            }
-        });
+		callService(item, 'vacuum', service, { entity_id: item.id });
     };
 
     $scope.dockVacuum = function (item, entity) {
@@ -1072,34 +1065,15 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
 
             if (entity.state === "cleaning") {
                 item.title = "Pausing...";
-                sendItemData(item, {
-                    type: "call_service",
-                    domain: "vacuum",
-                    service: service,
-                    service_data: {
-                        entity_id: item.id
-                    }
+				callService(item, 'vacuum', service, { entity_id: item.id });
                 });
                 $timeout(function () {
                     item.title = "Returning...";
-                    sendItemData(item, {
-                        type: "call_service",
-                        domain: "vacuum",
-                        service: service,
-                        service_data: {
-                            entity_id: item.id
-                        }
-                    });
+					callService(item, 'vacuum', service, { entity_id: item.id });
                 }, 2000);
             } else if (entity.state === "paused" || entity.state === "idle") {
                 item.title = "Returning...";
-                sendItemData(item, {
-                    type: "call_service",
-                    domain: "vacuum",
-                    service: service,
-                    service_data: {
-                        entity_id: item.id
-                    }
+                callService(item, 'vacuum', service, { entity_id: item.id });
                 });
             } else {
                 item.title = "Already docking";
@@ -1115,14 +1089,7 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
         $event.preventDefault();
         $event.stopPropagation();
 
-        sendItemData(item, {
-            type: "call_service",
-            domain: "vacuum",
-            service: "set_fan_speed",
-            service_data: {
-                entity_id: item.id,
-                fan_speed: option
-            }
+		callService(item, 'vacuum', set_fan_speed, { entity_id: item.id, fan_speed: option });
         });
 
         $scope.closeActiveSelect();

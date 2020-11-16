@@ -550,7 +550,41 @@
             </div>
          </div>
       </div>
-
+<!-- CUSTOM -->
+        <div ng-if="item.type === TYPES.VACUUM"
+             class="item-entity-container">
+            <div class="item-entity vacuumHide">
+                    <span class="item-entity--icon mdi"
+                          ng-class="entityIcon(item, entity)"></span>
+                <div class="vacuum-sensors">
+                    <span>Main brush: <span ng-bind="entity.attributes.main_brush_left"></span>h</span><br>
+                    <span>Side brush: <span ng-bind="entity.attributes.side_brush_left"></span>h</span><br>
+                    <span>Filter: <span ng-bind="entity.attributes.filter_left"></span>h</span><br>
+                    <span>Sensors: <span ng-bind="entity.attributes.sensor_dirty_left"></span>h</span></div>
+                <div class="item-vacuum--mode" ng-if="entity.attributes.fan_speed"
+                     ng-click="openSelect(item); $event.stopPropagation()">
+                    Mode: <span ng-bind="entity.attributes.fan_speed"></span>
+                </div>
+            </div>
+            <div ng-if="selectOpened(item)" class="item-select"
+                 ng-style="itemSelectStyles(entity, entity.attributes.fan_speed_list)">
+                <div class="item-select--option"
+                     ng-repeat="option in entity.attributes.fan_speed_list track by $index"
+                     ng-class="{'-active': option === entity.attributes.fan_speed}"
+                     ng-click="setVacuumOption($event, item, entity, option)">
+                    <span ng-bind="option"></span>
+                </div>
+            </div>
+            <!-------- DOCK MODE ---->
+            <div ng-if="item.dockModeEnabled" class="item-entity-dockMode">
+                <div ng-repeat="dockMode in item.dockMode track by $index" class="item-dockMode-container">
+                    <div class="item-dockMode-title" ng-if="dockMode.title">
+                    </div>
+                </div>
+            </div>
+            <!------/DOCK MODE --->
+        </div>
+<!-- /CUSTOM -->
       <div ng-if="item.type === TYPES.LIGHT"
            class="item-entity-container">
 

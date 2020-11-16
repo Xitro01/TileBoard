@@ -26,13 +26,13 @@ $provide.value("$locale", {
       "p.m."
     ],
     "DAY": [
-      "zondag",
-      "maandag",
-      "dinsdag",
-      "woensdag",
-      "donderdag",
-      "vrijdag",
-      "zaterdag"
+      "Zondag",
+      "Maandag",
+      "Dinsdag",
+      "Woensdag",
+      "Donderdag",
+      "Vrijdag",
+      "Zaterdag"
     ],
     "ERANAMES": [
       "voor Christus",

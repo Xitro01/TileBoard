@@ -103,6 +103,11 @@ App.controller('Main', function ($scope, $timeout, $location, Api) {
       if (item.history || entity && entity.entity_id) {
          return $scope.openPopupHistory(item, entity);
       }
+	  
+	  switch (item.type) {
+            case TYPES.VACUUM:
+                return $scope.dockVacuum(item, entity);
+            }
    };
 
    $scope.getBodyClass = function () {

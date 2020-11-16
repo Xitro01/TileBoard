@@ -31,6 +31,7 @@
    <link rel="stylesheet" href="./styles/custom.css">
 
    <% javascripts.forEach(javascript => { %><script src="./<%= javascript %>"></script><% }) %>
+   <script src="bower-angular-i18n/angular-locale_nl-nl.js"></script>
 </head>
 
 <body ng-controller="Main" ng-class="getBodyClass()">
@@ -459,7 +460,6 @@
                    TYPES.SCRIPT,
                    TYPES.SENSOR_ICON,
                    TYPES.SWITCH,
-                   TYPES.VACUUM,
                    ].includes(item.type)"
            class="item-entity-container">
          <div ng-if="item.customHtml"
@@ -631,7 +631,7 @@
 
             <div ng-if="itemField('colorpicker', item, entity)" class="item-entity-colorpicker">
                <span>Color:</span>
-               <input color-picker
+               <input readonly="readonly" color-picker
                   color-picker-model="getRGBStringFromArray(entity.attributes.rgb_color)"
                   color-picker-show-value="false"
                   color-picker-output-format="'rgba'"
